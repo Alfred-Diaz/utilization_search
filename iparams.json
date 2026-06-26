@@ -1,0 +1,10 @@
+{
+  "supabase_url": {
+    "display_name": "Supabase URL",
+    "type": "text"
+  },
+  "supabase_service_key": {
+    "display_name": "Supabase Service Role Key",
+    "type": "secure"
+  }
+}
