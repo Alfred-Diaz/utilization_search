@@ -1,233 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Member Utilization</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg: #eef2f7;
-  --panel: #ffffff;
-  --panel-dark: #f6f8fb;
-  --text: #26313d;
-  --muted: #6b7785;
-  --border: #d9e0e8;
-  --blue: #2f6fdd;
-  --blue-dark: #1c56b5;
-  --green: #2ca66f;
-}
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #e9eef6, #f8fafc);
-  font-family: 'IBM Plex Sans', Arial, sans-serif;
-  color: var(--text);
-  padding: 24px;
-}
-.member-panel {
-  max-width: 1320px;
-  margin: 0 auto;
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  box-shadow: 0 18px 45px rgba(24, 39, 75, 0.12);
-  overflow: hidden;
-}
-.state-box {
-  margin: 18px;
-  padding: 14px 16px;
-  border: 1px solid #cdd7e4;
-  background: #f8fbff;
-  border-radius: 10px;
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-.state-box span { color: var(--muted); }
-.hidden { display: none; }
-.member-header {
-  display: flex;
-  justify-content: space-between;
-  gap: 18px;
-  padding: 24px 28px;
-  background: linear-gradient(135deg, #264c93, #3178e0);
-  color: #ffffff;
-}
-.member-header h1 {
-  margin: 0 0 8px;
-  font-size: 28px;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-}
-.member-header p {
-  margin: 3px 0;
-  opacity: 0.94;
-  font-size: 14px;
-}
-.status-pill {
-  align-self: start;
-  padding: 8px 14px;
-  border-radius: 999px;
-  background: #d8f5e5;
-  color: #11633d;
-  font-weight: 700;
-  font-size: 13px;
-  letter-spacing: .08em;
-}
-.details-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 0.85fr;
-  gap: 16px;
-  padding: 18px;
-  background: #f3f6fa;
-}
-.detail-block {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  overflow: hidden;
-}
-.info-row, .money-row {
-  display: grid;
-  grid-template-columns: 150px 1fr;
-  min-height: 40px;
-  border-bottom: 1px solid var(--border);
-}
-.info-row:last-child, .money-row:last-child { border-bottom: 0; }
-.info-row span, .money-row span {
-  background: #e8eef6;
-  padding: 10px 12px;
-  font-size: 13px;
-  color: #4a5968;
-  font-weight: 600;
-}
-.info-row strong {
-  padding: 10px 12px;
-  font-size: 13px;
-  font-weight: 600;
-}
-.money-row {
-  grid-template-columns: 110px 58px 1fr;
-}
-.money-row em {
-  padding: 10px 10px;
-  background: #f7f9fc;
-  border-left: 1px solid var(--border);
-  border-right: 1px solid var(--border);
-  font-style: normal;
-  font-size: 12px;
-  color: var(--muted);
-}
-.money-row strong {
-  padding: 10px 12px;
-  text-align: right;
-  font-size: 13px;
-}
-.family-section {
-  padding: 0 18px 18px;
-  background: #f3f6fa;
-}
-.family-section h2 {
-  margin: 0;
-  padding: 12px 14px;
-  background: #34495e;
-  color: #fff;
-  font-size: 15px;
-  border-radius: 10px 10px 0 0;
-}
-.table-wrap {
-  overflow-x: auto;
-  background: #fff;
-  border: 1px solid var(--border);
-  border-top: 0;
-  border-radius: 0 0 10px 10px;
-}
-table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 1020px;
-}
-th {
-  background: #e6ecf4;
-  color: #3e4b58;
-  font-size: 12px;
-  text-align: left;
-  padding: 10px;
-  border-bottom: 1px solid var(--border);
-}
-td {
-  padding: 10px;
-  font-size: 12px;
-  border-bottom: 1px solid var(--border);
-}
-tbody tr:nth-child(even) { background: #fafbfd; }
-tfoot td {
-  background: #dfe8f3;
-  font-weight: 700;
-  text-align: right;
-}
-.total-label { text-align: right; }
-@media (max-width: 980px) {
-  body { padding: 12px; }
-  .details-grid { grid-template-columns: 1fr; }
-  .member-header { flex-direction: column; }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Member Utilization Search</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <section class="member-panel">
-    <div class="state-box" id="state-box">
-      <strong id="state-title">Loading…</strong>
-      <span id="state-message">Fetching member utilization details…</span>
-    </div>
-
-    <div id="card-content" class="hidden">
-      <header class="member-header">
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="brand-block">
+        <div class="brand-mark">EWH</div>
         <div>
-          <h1 id="member-name">—</h1>
-          <p id="member-company">—</p>
-          <p id="member-number">—</p>
-          <p id="member-plan">Flexi-health Protect</p>
+          <p class="eyebrow">EastWest Health Care</p>
+          <h1>Member Utilization Search</h1>
         </div>
-        <span class="status-pill" id="member-status">ACTIVE</span>
-      </header>
+      </div>
+      <div class="topbar-meta">
+        <span class="secure-badge">Internal Use Only</span>
+        <span class="date-chip" id="current-date">Member Portal</span>
+      </div>
+    </header>
 
-      <div class="details-grid">
-        <div class="detail-block">
-          <div class="info-row"><span>Department</span><strong id="department">—</strong></div>
-          <div class="info-row"><span>Member Type</span><strong id="member-type">—</strong></div>
-          <div class="info-row"><span>Date of Birth</span><strong id="birth-date">—</strong></div>
-          <div class="info-row"><span>Age / Gender</span><strong id="age-gender">—</strong></div>
-          <div class="info-row"><span>Civil Status</span><strong id="civil-status">—</strong></div>
-          <div class="info-row"><span>Inception Date</span><strong id="inception-date">—</strong></div>
-          <div class="info-row"><span>Hospital Access</span><strong id="hospital-access">—</strong></div>
+    <section class="search-card" aria-label="Member search panel">
+      <div class="search-copy">
+        <p class="section-kicker">Search Criteria</p>
+        <h2>Find member utilization details</h2>
+        <p>Search by member number, employee number, or full member name to view coverage, benefit limits, and family utilization.</p>
+      </div>
+      <form class="search-form" id="member-search-form">
+        <label for="member-search">Member ID / Name</label>
+        <div class="search-control">
+          <input id="member-search" name="memberSearch" type="search" placeholder="Example: 1000-00001-00-01 or DELA CRUZ" autocomplete="off">
+          <button type="submit">Search</button>
         </div>
+        <p class="helper-text">Only authorized personnel should access member utilization information.</p>
+      </form>
+    </section>
 
-        <div class="detail-block">
-          <div class="info-row"><span>Designation</span><strong id="designation">—</strong></div>
-          <div class="info-row"><span>Coverage Period</span><strong id="coverage-period">—</strong></div>
-          <div class="info-row"><span>Covered Benefit</span><strong id="covered-benefit">—</strong></div>
-          <div class="info-row"><span>Pre-Existing</span><strong id="pre-existing">—</strong></div>
-          <div class="info-row"><span>Maternity</span><strong id="maternity">—</strong></div>
-          <div class="info-row"><span>Dental</span><strong id="dental-benefit">—</strong></div>
-          <div class="info-row"><span>Clinic Access</span><strong id="clinic-access">—</strong></div>
+    <section class="status-message" id="state-box">
+      <strong id="state-title">Ready</strong>
+      <span id="state-message">Enter a member number or name to begin searching.</span>
+    </section>
+
+    <section class="profile-card" id="card-content">
+      <div class="profile-header">
+        <div class="profile-identity">
+          <span class="profile-label">Member Profile</span>
+          <h2 id="member-name">DELA CRUZ, JUAN SANTOS</h2>
+          <div class="identity-grid">
+            <span id="member-company">EASTWEST HEALTH CARE INC.</span>
+            <span id="member-number">1000-00001-00-01</span>
+            <span id="member-plan">Flexi-health Protect</span>
+          </div>
         </div>
-
-        <div class="detail-block limits-block">
-          <div class="info-row"><span>Room Limit</span><strong id="room-limit">—</strong></div>
-          <div class="money-row"><span>MBL</span><em>PHP</em><strong id="mbl">0.00</strong></div>
-          <div class="money-row"><span>IBNR</span><em>PHP</em><strong id="ibnr">0.00</strong></div>
-          <div class="money-row"><span>Reported</span><em>PHP</em><strong id="reported">0.00</strong></div>
-          <div class="money-row"><span>Available</span><em>PHP</em><strong id="available">0.00</strong></div>
+        <div class="profile-actions">
+          <span class="status-pill" id="member-status">ACTIVE</span>
+          <button class="ghost-btn" type="button">Print View</button>
         </div>
       </div>
 
+      <div class="summary-grid" aria-label="Utilization summary">
+        <article class="summary-card">
+          <span>Maximum Benefit Limit</span>
+          <strong>PHP <b id="mbl">100,000.00</b></strong>
+        </article>
+        <article class="summary-card">
+          <span>Reported Utilization</span>
+          <strong>PHP <b id="reported">2,500.00</b></strong>
+        </article>
+        <article class="summary-card">
+          <span>IBNR</span>
+          <strong>PHP <b id="ibnr">0.00</b></strong>
+        </article>
+        <article class="summary-card success">
+          <span>Available Balance</span>
+          <strong>PHP <b id="available">97,500.00</b></strong>
+        </article>
+      </div>
+
+      <div class="content-grid">
+        <section class="info-panel">
+          <div class="panel-title">
+            <h3>Personal & Employment Details</h3>
+          </div>
+          <dl class="details-list">
+            <div><dt>Department</dt><dd id="department">OPERATIONS</dd></div>
+            <div><dt>Designation</dt><dd id="designation">SUPPORT SPECIALIST</dd></div>
+            <div><dt>Member Type</dt><dd id="member-type">PRINCIPAL</dd></div>
+            <div><dt>Date of Birth</dt><dd id="birth-date">01/15/1990</dd></div>
+            <div><dt>Age / Gender</dt><dd id="age-gender">36 / MALE</dd></div>
+            <div><dt>Civil Status</dt><dd id="civil-status">MARRIED</dd></div>
+            <div><dt>Inception Date</dt><dd id="inception-date">01/01/2026</dd></div>
+          </dl>
+        </section>
+
+        <section class="info-panel">
+          <div class="panel-title">
+            <h3>Coverage & Access Details</h3>
+          </div>
+          <dl class="details-list">
+            <div><dt>Coverage Period</dt><dd id="coverage-period">01/01/2026 - 12/31/2026</dd></div>
+            <div><dt>Covered Benefit</dt><dd id="covered-benefit">MEDICAL + DENTAL + OPTICAL</dd></div>
+            <div><dt>Room Limit</dt><dd id="room-limit">PRIVATE</dd></div>
+            <div><dt>Pre-Existing</dt><dd id="pre-existing">COVERED</dd></div>
+            <div><dt>Maternity</dt><dd id="maternity">NOT COVERED</dd></div>
+            <div><dt>Dental</dt><dd id="dental-benefit">COVERED</dd></div>
+            <div><dt>Hospital Access</dt><dd id="hospital-access">REGULAR PRIVATE</dd></div>
+            <div><dt>Clinic Access</dt><dd id="clinic-access">WITH ACCESS</dd></div>
+          </dl>
+        </section>
+      </div>
+
       <section class="family-section">
-        <h2>Family Group</h2>
+        <div class="panel-title table-title">
+          <div>
+            <p class="section-kicker">Family Utilization</p>
+            <h3>Family Group Members</h3>
+          </div>
+          <span class="record-count">2 Records</span>
+        </div>
         <div class="table-wrap">
           <table>
             <thead>
@@ -245,115 +140,49 @@ tfoot td {
                 <th>Optical</th>
               </tr>
             </thead>
-            <tbody id="family-body"></tbody>
+            <tbody id="family-body">
+              <tr>
+                <td>1000-00001-00-01</td>
+                <td>DELA CRUZ, JUAN SANTOS</td>
+                <td>P</td>
+                <td>36</td>
+                <td>M</td>
+                <td>M</td>
+                <td>MED + DEN + OPT</td>
+                <td>0.00</td>
+                <td>2,500.00</td>
+                <td>2,500.00</td>
+                <td>0.00</td>
+              </tr>
+              <tr>
+                <td>1000-00001-01-01</td>
+                <td>DELA CRUZ, MARIA REYES</td>
+                <td>D</td>
+                <td>34</td>
+                <td>F</td>
+                <td>M</td>
+                <td>MED + DEN + OPT</td>
+                <td>0.00</td>
+                <td>0.00</td>
+                <td>0.00</td>
+                <td>0.00</td>
+              </tr>
+            </tbody>
             <tfoot>
               <tr>
-                <td colspan="7" class="total-label">Family Grp. Total →</td>
+                <td colspan="7" class="total-label">Family Group Total</td>
                 <td id="total-ibnr">0.00</td>
-                <td id="total-reported">0.00</td>
-                <td id="total-med-dental">0.00</td>
+                <td id="total-reported">2,500.00</td>
+                <td id="total-med-dental">2,500.00</td>
                 <td id="total-optical">0.00</td>
               </tr>
             </tfoot>
           </table>
         </div>
       </section>
-    </div>
-  </section>
+    </section>
+  </main>
 
-<script>
-const sampleMember = {
-  name: 'DELA CRUZ, JUAN SANTOS',
-  company: 'EASTWEST HEALTH CARE INC.',
-  memberNo: '1000-00001-00-01',
-  plan: 'Flexi-health Protect',
-  status: 'ACTIVE',
-  department: 'OPERATIONS',
-  memberType: 'PRINCIPAL',
-  birthDate: '01/15/1990',
-  ageGender: '36 / MALE',
-  civilStatus: 'MARRIED',
-  inceptionDate: '01/01/2026',
-  hospitalAccess: 'REGULAR PRIVATE',
-  designation: 'SUPPORT SPECIALIST',
-  coveragePeriod: '01/01/2026 - 12/31/2026',
-  coveredBenefit: 'MEDICAL + DENTAL + OPTICAL',
-  preExisting: 'COVERED',
-  maternity: 'NOT COVERED',
-  dental: 'COVERED',
-  clinicAccess: 'WITH ACCESS',
-  roomLimit: 'PRIVATE',
-  mbl: 100000,
-  ibnr: 0,
-  reported: 2500,
-  available: 97500,
-  family: [
-    { memberNo: '1000-00001-00-01', name: 'DELA CRUZ, JUAN SANTOS', type: 'P', age: 36, gender: 'M', civil: 'M', benefit: 'MED + DEN + OPT', ibnr: 0, reported: 2500, medDental: 2500, optical: 0 },
-    { memberNo: '1000-00001-01-01', name: 'DELA CRUZ, MARIA REYES', type: 'D', age: 34, gender: 'F', civil: 'M', benefit: 'MED + DEN + OPT', ibnr: 0, reported: 0, medDental: 0, optical: 0 }
-  ]
-};
-
-const money = value => Number(value || 0).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-const setText = (id, value) => { document.getElementById(id).textContent = value ?? '—'; };
-
-function renderMember(member) {
-  setText('member-name', member.name);
-  setText('member-company', member.company);
-  setText('member-number', member.memberNo);
-  setText('member-plan', member.plan);
-  setText('member-status', member.status);
-  setText('department', member.department);
-  setText('member-type', member.memberType);
-  setText('birth-date', member.birthDate);
-  setText('age-gender', member.ageGender);
-  setText('civil-status', member.civilStatus);
-  setText('inception-date', member.inceptionDate);
-  setText('hospital-access', member.hospitalAccess);
-  setText('designation', member.designation);
-  setText('coverage-period', member.coveragePeriod);
-  setText('covered-benefit', member.coveredBenefit);
-  setText('pre-existing', member.preExisting);
-  setText('maternity', member.maternity);
-  setText('dental-benefit', member.dental);
-  setText('clinic-access', member.clinicAccess);
-  setText('room-limit', member.roomLimit);
-  setText('mbl', money(member.mbl));
-  setText('ibnr', money(member.ibnr));
-  setText('reported', money(member.reported));
-  setText('available', money(member.available));
-
-  const totals = { ibnr: 0, reported: 0, medDental: 0, optical: 0 };
-  const rows = member.family.map(row => {
-    totals.ibnr += Number(row.ibnr || 0);
-    totals.reported += Number(row.reported || 0);
-    totals.medDental += Number(row.medDental || 0);
-    totals.optical += Number(row.optical || 0);
-    return `<tr>
-      <td>${row.memberNo}</td>
-      <td>${row.name}</td>
-      <td>${row.type}</td>
-      <td>${row.age}</td>
-      <td>${row.gender}</td>
-      <td>${row.civil}</td>
-      <td>${row.benefit}</td>
-      <td>${money(row.ibnr)}</td>
-      <td>${money(row.reported)}</td>
-      <td>${money(row.medDental)}</td>
-      <td>${money(row.optical)}</td>
-    </tr>`;
-  }).join('');
-
-  document.getElementById('family-body').innerHTML = rows;
-  setText('total-ibnr', money(totals.ibnr));
-  setText('total-reported', money(totals.reported));
-  setText('total-med-dental', money(totals.medDental));
-  setText('total-optical', money(totals.optical));
-
-  document.getElementById('state-box').classList.add('hidden');
-  document.getElementById('card-content').classList.remove('hidden');
-}
-
-renderMember(sampleMember);
-</script>
+  <script src="script.js"></script>
 </body>
 </html>
