@@ -17,138 +17,80 @@
         <select id="search-type" aria-label="Search type">
           <option value="member_no">Member No.</option>
           <option value="name">Name</option>
-          <option value="company">Company</option>
         </select>
-        <input id="member-search" type="search" placeholder="1846-00136-03-01" autocomplete="off">
-        <button type="submit" id="search-button">
-          <span>⌕</span>
-          Search
-        </button>
+        <input id="member-search" type="search" placeholder="Enter member number or name" autocomplete="off">
+        <button type="submit" id="search-button">Search</button>
       </form>
       <p class="status-line" id="status-line">Enter a search value to retrieve member utilization details.</p>
     </section>
 
     <section class="member-card" id="member-card">
-      <div class="member-identity">
-        <div class="identity-copy">
-          <h2 id="member-name">MORAUDA, ANABEL SORIZO</h2>
-          <p id="member-company">THEL-FHP-25-1846 - THE LEGAL TECH COMPANY INC.</p>
-          <p id="member-number">1846-00136-03-01</p>
-          <p id="member-plan">Flexi-health Protect</p>
-          <span class="status-pill" id="member-status">ACTIVE</span>
+      <header class="member-header">
+        <div>
+          <p class="kicker">Member Utilization Profile</p>
+          <h2 id="member-name">--</h2>
+          <p id="member-company">--</p>
+          <p id="member-number">--</p>
+          <p id="member-plan">--</p>
         </div>
-
-        <div class="benefit-cards" aria-label="Benefit summary">
-          <article class="benefit-card blue">
-            <div class="icon-box">▥</div>
-            <div>
-              <p>Room Limit</p>
-              <h3 id="room-limit-card">Regular Private</h3>
-            </div>
-            <span>PHP</span>
-            <strong id="mbl-card">150,000.00</strong>
-          </article>
-          <article class="benefit-card purple">
-            <div class="icon-box">♙</div>
-            <div>
-              <p>Maternity</p>
-              <h3 id="maternity-card">Pre &amp; Post Natal Consult</h3>
-            </div>
-            <span>PHP</span>
-            <strong id="maternity-amount-card">150,000.00</strong>
-          </article>
-          <article class="benefit-card orange">
-            <div class="icon-box">▱</div>
-            <div>
-              <p>IBNR</p>
-              <h3>Reserved</h3>
-            </div>
-            <span>PHP</span>
-            <strong id="ibnr-card">0.00</strong>
-          </article>
-          <article class="benefit-card green">
-            <div class="icon-box">✓</div>
-            <div>
-              <p>Covered Benefit</p>
-              <h3 id="covered-benefit-card">Full</h3>
-            </div>
-            <span>PHP</span>
-            <strong id="available-card">150,000.00</strong>
-          </article>
-        </div>
-      </div>
-
-      <div class="details-panel">
-        <div class="detail-column">
-          <div class="detail-row"><i>▦</i><span>Department</span><strong id="department">--</strong></div>
-          <div class="detail-row"><i>♙</i><span>Member Type</span><strong id="member-type">Parent</strong></div>
-          <div class="detail-row"><i>□</i><span>Date of Birth</span><strong id="birth-date">Jun 15, 1969</strong></div>
-          <div class="detail-row"><i>⚭</i><span>Age / Gender</span><strong id="age-gender">57 / Female</strong></div>
-          <div class="detail-row"><i>♡</i><span>Civil Status</span><strong id="civil-status">Married</strong></div>
-          <div class="detail-row"><i>□</i><span>Inception Date</span><strong id="inception-date">Jun 29, 2026</strong></div>
-          <div class="detail-row"><i>◎</i><span>Hospital Access</span><strong id="hospital-access">Any accredited hospitals</strong></div>
-        </div>
-
-        <div class="detail-column">
-          <div class="detail-row"><i>☷</i><span>Designation</span><strong id="designation">--</strong></div>
-          <div class="detail-row"><i>□</i><span>Coverage Period</span><strong id="coverage-period">Jun 29, 2026 to Sep 30, 2026</strong></div>
-          <div class="detail-row"><i>☤</i><span>Covered Benefit</span><strong id="covered-benefit">Full</strong></div>
-          <div class="detail-row"><i>♧</i><span>Pre-Existing</span><strong id="pre-existing">Covered</strong></div>
-          <div class="detail-row"><i>♡</i><span>Maternity</span><strong id="maternity">Pre and Post Natal Consult</strong></div>
-          <div class="detail-row"><i>♢</i><span>Dental</span><strong id="dental-benefit">Not covered</strong></div>
-          <div class="detail-row"><i>⌘</i><span>Clinic Access</span><strong id="clinic-access">Except Healthway Medical Clinic</strong></div>
-        </div>
-
-        <div class="detail-column amount-column">
-          <div class="detail-row"><i>▭</i><span>Room Limit</span><strong id="room-limit">Regular Private</strong><b id="room-limit-amount">150,000.00</b></div>
-          <div class="detail-row"><i>☷</i><span>MBL</span><strong>PHP</strong><b id="mbl">150,000.00</b></div>
-          <div class="detail-row"><i>▣</i><span>IBNR</span><strong>PHP</strong><b id="ibnr">0.00</b></div>
-          <div class="detail-row"><i>□</i><span>Reported</span><strong>PHP</strong><b id="reported">0.00</b></div>
-          <div class="detail-row"><i>⌘</i><span>Available</span><strong>PHP</strong><b id="available">150,000.00</b></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="family-panel">
-      <header>
-        <h2>Family Group <span id="family-count">(2 Member(s))</span></h2>
+        <span class="status-pill" id="member-status">ACTIVE</span>
       </header>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Member No.</th>
-              <th>Name</th>
-              <th>Type</th>
-              <th>Age</th>
-              <th>Gender</th>
-              <th>Civil Status</th>
-              <th>Covered Benefit</th>
-              <th>IBNR (PHP)</th>
-              <th>Reported (PHP)</th>
-              <th>Med + Dental (PHP)</th>
-              <th>Optical (PHP)</th>
-            </tr>
-          </thead>
-          <tbody id="family-body"></tbody>
-          <tfoot>
-            <tr>
-              <td colspan="7">Family Group Total</td>
-              <td id="total-ibnr">0.00</td>
-              <td id="total-reported">0.00</td>
-              <td id="total-med-dental">0.00</td>
-              <td id="total-optical">0.00</td>
-            </tr>
-            <tr>
-              <td colspan="7">Dependents Total</td>
-              <td id="dep-total-ibnr">0.00</td>
-              <td id="dep-total-reported">0.00</td>
-              <td id="dep-total-med-dental">0.00</td>
-              <td id="dep-total-optical">0.00</td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
+
+      <section class="category-grid">
+        <article class="category-card">
+          <header>
+            <span class="category-icon">01</span>
+            <div>
+              <p class="kicker">Profile</p>
+              <h3>Member Details</h3>
+            </div>
+          </header>
+          <div class="field-list">
+            <div><span>Member Type</span><strong id="member-type">--</strong></div>
+            <div><span>Designation</span><strong id="designation">--</strong></div>
+            <div><span>DOB</span><strong id="birth-date">--</strong></div>
+            <div><span>Age / Gender</span><strong id="age-gender">--</strong></div>
+            <div><span>Civil Status</span><strong id="civil-status">--</strong></div>
+            <div><span>Member Start Date</span><strong id="member-start-date">--</strong></div>
+            <div><span>Member End Date</span><strong id="member-end-date">--</strong></div>
+            <div><span>Hospital Access</span><strong id="member-hospital-access">--</strong></div>
+          </div>
+        </article>
+
+        <article class="category-card">
+          <header>
+            <span class="category-icon">02</span>
+            <div>
+              <p class="kicker">Benefits</p>
+              <h3>Coverage Details</h3>
+            </div>
+          </header>
+          <div class="field-list">
+            <div><span>Pre-Existing</span><strong id="pre-existing">--</strong></div>
+            <div><span>Maternity</span><strong id="maternity">--</strong></div>
+            <div><span>Dental</span><strong id="dental-benefit">--</strong></div>
+            <div><span>Hospital Access</span><strong id="coverage-hospital-access">--</strong></div>
+            <div><span>Clinic Access</span><strong id="clinic-access">--</strong></div>
+            <div><span>Room Limit</span><strong id="room-limit">--</strong></div>
+          </div>
+        </article>
+
+        <article class="category-card utilization-card">
+          <header>
+            <span class="category-icon">03</span>
+            <div>
+              <p class="kicker">Balances</p>
+              <h3>Utilization Details</h3>
+            </div>
+          </header>
+          <div class="field-list amount-list">
+            <div><span>MBL</span><strong>PHP <b id="mbl">0.00</b></strong></div>
+            <div><span>IBNR (Incurred But Not Yet Reported)</span><strong>PHP <b id="ibnr">0.00</b></strong></div>
+            <div><span>Processed Claims (Reported Claims)</span><strong>PHP <b id="processed-claims">0.00</b></strong></div>
+            <div><span>Remaining MBL</span><strong>PHP <b id="remaining-mbl">0.00</b></strong></div>
+          </div>
+        </article>
+      </section>
     </section>
   </main>
 
