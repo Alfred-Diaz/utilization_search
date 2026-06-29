@@ -26,9 +26,14 @@
 
     <section class="member-card" id="member-card">
       <header class="member-header">
-        <div>
+        <div class="member-title-area">
           <p class="kicker">Member Utilization Profile</p>
-          <h2 id="member-name">--</h2>
+          <div class="member-selector-wrap">
+            <h2 id="member-name">--</h2>
+            <select id="family-member-select" class="family-select" aria-label="Select family member" hidden>
+              <option value="0">--</option>
+            </select>
+          </div>
           <p id="member-company">--</p>
           <p id="member-number">--</p>
           <p id="member-plan">--</p>
@@ -90,6 +95,32 @@
             <div><span>Remaining MBL</span><strong>PHP <b id="remaining-mbl">0.00</b></strong></div>
           </div>
         </article>
+      </section>
+
+      <section class="family-summary-card">
+        <header>
+          <div>
+            <p class="kicker">Family Coverage Summary</p>
+            <h3>Family Details</h3>
+          </div>
+          <span id="family-count" class="family-count">1 Member</span>
+        </header>
+        <div class="family-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Family Member</th>
+                <th>Relationship</th>
+                <th>Pre-Existing</th>
+                <th>Maternity</th>
+                <th>Dental</th>
+                <th>Hospital Access</th>
+                <th>Clinic Access</th>
+              </tr>
+            </thead>
+            <tbody id="family-details-body"></tbody>
+          </table>
+        </div>
       </section>
     </section>
   </main>
