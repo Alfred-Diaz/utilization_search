@@ -4,6 +4,7 @@ const FORMATTER = new Intl.NumberFormat('en-PH', {
 });
 
 const PLACEHOLDER = '--';
+let CURRENT_FAMILY_MEMBERS = [];
 
 const SUPABASE_FIELD_MAP = {
   identity: {
@@ -36,6 +37,17 @@ const SUPABASE_FIELD_MAP = {
     ibnr: 'ibnr',
     processedClaims: 'processed_claims',
     remainingMbl: 'remaining_mbl'
+  },
+  familyDetails: {
+    rows: 'family_details',
+    name: 'name',
+    memberNo: 'member_no',
+    relationship: 'relationship',
+    preExisting: 'pre_existing',
+    maternity: 'maternity',
+    dental: 'dental',
+    hospitalAccess: 'hospital_access',
+    clinicAccess: 'clinic_access'
   }
 };
 
@@ -61,7 +73,29 @@ const SAMPLE_SUPABASE_RESPONSE = {
   mbl: 150000,
   ibnr: 0,
   processed_claims: 0,
-  remaining_mbl: 150000
+  remaining_mbl: 150000,
+  family_details: [
+    {
+      name: 'MORAUDA, ANABEL SORIZO',
+      member_no: '1846-00136-03-01',
+      relationship: 'Parent',
+      pre_existing: 'Covered',
+      maternity: 'Pre and Post Natal Consult',
+      dental: 'Not covered',
+      hospital_access: 'Any accredited hospitals',
+      clinic_access: 'Except Healthway Medical Clinic'
+    },
+    {
+      name: 'MORAUDA, ANA CECILIA SORIZO',
+      member_no: '1846-00136-00-00',
+      relationship: 'Principal',
+      pre_existing: 'Covered',
+      maternity: 'Not covered',
+      dental: 'Not covered',
+      hospital_access: 'Any accredited hospitals',
+      clinic_access: 'Except Healthway Medical Clinic'
+    }
+  ]
 };
 
 function valueFrom(data, key, fallback = PLACEHOLDER) {
@@ -88,6 +122,7 @@ function normalizeSupabasePayload(payload) {
   const member = SUPABASE_FIELD_MAP.memberDetails;
   const coverage = SUPABASE_FIELD_MAP.coverageDetails;
   const utilization = SUPABASE_FIELD_MAP.utilizationDetails;
+  const family = SUPABASE_FIELD_MAP.familyDetails;
 
   return {
     name: valueFrom(source, identity.name),
@@ -115,16 +150,30 @@ function normalizeSupabasePayload(payload) {
     mbl: amountFrom(source, utilization.mbl),
     ibnr: amountFrom(source, utilization.ibnr),
     processedClaims: amountFrom(source, utilization.processedClaims),
-    remainingMbl: amountFrom(source, utilization.remainingMbl)
+    remainingMbl: amountFrom(source, utilization.remainingMbl),
+    familyDetails: Array.isArray(source?.[family.rows]) ? source[family.rows] : []
   };
 }
 
-function renderMember(payload) {
+function renderMember(payload, selectedFamilyIndex = 0) {
   const member = normalizeSupabasePayload(payload);
+  CURRENT_FAMILY_MEMBERS = member.familyDetails.length ? member.familyDetails : [{
+    name: member.name,
+    member_no: member.memberNo,
+    relationship: member.memberType,
+    pre_existing: member.preExisting,
+    maternity: member.maternity,
+    dental: member.dental,
+    hospital_access: member.coverageHospitalAccess,
+    clinic_access: member.clinicAccess
+  }];
 
-  setText('member-name', member.name);
+  const selectedFamily = CURRENT_FAMILY_MEMBERS[selectedFamilyIndex] || CURRENT_FAMILY_MEMBERS[0];
+  const familyMap = SUPABASE_FIELD_MAP.familyDetails;
+
+  setText('member-name', valueFrom(selectedFamily, familyMap.name, member.name));
   setText('member-company', member.company);
-  setText('member-number', member.memberNo);
+  setText('member-number', valueFrom(selectedFamily, familyMap.memberNo, member.memberNo));
   setText('member-plan', member.plan);
   setText('member-status', member.status);
 
@@ -137,17 +186,55 @@ function renderMember(payload) {
   setText('member-end-date', member.memberEndDate);
   setText('member-hospital-access', member.memberHospitalAccess);
 
-  setText('pre-existing', member.preExisting);
-  setText('maternity', member.maternity);
-  setText('dental-benefit', member.dental);
-  setText('coverage-hospital-access', member.coverageHospitalAccess);
-  setText('clinic-access', member.clinicAccess);
+  setText('pre-existing', valueFrom(selectedFamily, familyMap.preExisting, member.preExisting));
+  setText('maternity', valueFrom(selectedFamily, familyMap.maternity, member.maternity));
+  setText('dental-benefit', valueFrom(selectedFamily, familyMap.dental, member.dental));
+  setText('coverage-hospital-access', valueFrom(selectedFamily, familyMap.hospitalAccess, member.coverageHospitalAccess));
+  setText('clinic-access', valueFrom(selectedFamily, familyMap.clinicAccess, member.clinicAccess));
   setText('room-limit', member.roomLimit);
 
   setText('mbl', formatAmount(member.mbl));
   setText('ibnr', formatAmount(member.ibnr));
   setText('processed-claims', formatAmount(member.processedClaims));
   setText('remaining-mbl', formatAmount(member.remainingMbl));
+
+  renderFamilySelector(selectedFamilyIndex);
+  renderFamilyDetailsTable(CURRENT_FAMILY_MEMBERS);
+}
+
+function renderFamilySelector(selectedIndex = 0) {
+  const select = document.getElementById('family-member-select');
+  if (!select) return;
+
+  select.innerHTML = CURRENT_FAMILY_MEMBERS.map((row, index) => {
+    const name = valueFrom(row, SUPABASE_FIELD_MAP.familyDetails.name);
+    const relationship = valueFrom(row, SUPABASE_FIELD_MAP.familyDetails.relationship);
+    return `<option value="${index}" ${index === selectedIndex ? 'selected' : ''}>${name} - ${relationship}</option>`;
+  }).join('');
+
+  select.hidden = CURRENT_FAMILY_MEMBERS.length <= 1;
+}
+
+function renderFamilyDetailsTable(rows) {
+  const body = document.getElementById('family-details-body');
+  if (!body) return;
+
+  const familyMap = SUPABASE_FIELD_MAP.familyDetails;
+  const visibleRows = rows.length ? rows : [];
+
+  body.innerHTML = visibleRows.map(row => `
+    <tr>
+      <td><strong>${valueFrom(row, familyMap.name)}</strong><small>${valueFrom(row, familyMap.memberNo)}</small></td>
+      <td>${valueFrom(row, familyMap.relationship)}</td>
+      <td>${valueFrom(row, familyMap.preExisting)}</td>
+      <td>${valueFrom(row, familyMap.maternity)}</td>
+      <td>${valueFrom(row, familyMap.dental)}</td>
+      <td>${valueFrom(row, familyMap.hospitalAccess)}</td>
+      <td>${valueFrom(row, familyMap.clinicAccess)}</td>
+    </tr>
+  `).join('');
+
+  setText('family-count', `${visibleRows.length || 1} Member${(visibleRows.length || 1) > 1 ? 's' : ''}`);
 }
 
 async function searchMember(searchValue, searchType) {
@@ -184,6 +271,10 @@ document.getElementById('member-search-form')?.addEventListener('submit', event 
   }
 
   searchMember(searchValue, searchType);
+});
+
+document.getElementById('family-member-select')?.addEventListener('change', event => {
+  renderMember(SAMPLE_SUPABASE_RESPONSE, Number(event.target.value || 0));
 });
 
 renderMember(SAMPLE_SUPABASE_RESPONSE);
